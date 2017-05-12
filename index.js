@@ -75,6 +75,14 @@ app.get('/auth/slack/callback',
   }
 );
 
+
+//
+app.get('/pins', (req, res) => {
+  Pin.findOne((err, pins) => {
+    res.send(pins);
+  })
+});
+
 // *** Plug the event adapter into the express app as middleware ***
 app.use('/slack/events', slackEvents.expressMiddleware());
 
