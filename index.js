@@ -68,15 +68,14 @@ app.get('/auth/slack', passport.authenticate('slack', {
 app.get('/auth/slack/callback',
   passport.authenticate('slack', { session: false }),
   (req, res) => {
-    res.send('<p>Greet and React was successfully installed on your team.</p>');
+    res.send('<p>Pinnie was successfully installed on your team.</p>');
   },
   (err, req, res, next) => {
-    res.status(500).send(`<p>Greet and React failed to install</p> <pre>${err}</pre>`);
+    res.status(500).send(`<p>Pinnie failed to install</p> <pre>${err}</pre>`);
   }
 );
 
-
-//
+// Index of saved pins
 app.get('/pins', (req, res) => {
   Pin.findOne((err, pins) => {
     res.send(pins);
@@ -87,35 +86,6 @@ app.get('/pins', (req, res) => {
 app.use('/slack/events', slackEvents.expressMiddleware());
 
 // *** Attach listeners to the event adapter ***
-
-// *** Greeting any user that says "hi" ***
-slackEvents.on('message', (message, body) => {
-  // Only deal with messages that have no subtype (plain messages) and contain 'hi'
-  if (!message.subtype && message.text.indexOf('hi') >= 0) {
-    // Initialize a client
-    const slack = getClientByTeamId(body.team_id);
-    // Handle initialization failure
-    if (!slack) {
-      return console.error('No authorization found for this team. Did you install this app again after restarting?');
-    }
-    // Respond to the message back in the same channel
-    slack.chat.postMessage(message.channel, `Hello <@${message.user}>! :tada:`)
-      .catch(console.error);
-  }
-});
-
-// *** Responding to reactions with the same emoji ***
-slackEvents.on('reaction_added', (event, body) => {
-  // Initialize a client
-  const slack = getClientByTeamId(body.team_id);
-  // Handle initialization failure
-  if (!slack) {
-    return console.error('No authorization found for this team. Did you install this app again after restarting?');
-  }
-  // Respond to the reaction back with the same emoji
-  slack.chat.postMessage(event.item.channel, `:${event.reaction}:`)
-    .catch(console.error);
-});
 
 slackEvents.on('pin_added', (event, body) => {
   // Initialize a client
@@ -139,7 +109,7 @@ slackEvents.on('pin_added', (event, body) => {
       });
     });
   // Notify message saved
-  slack.chat.postMessage(event.item.channel, `Saving pin message: ${event.item.message.text}`)
+  slack.chat.postMessage(event.item.channel, `Saving pinned item: ${event.item.message.text}`)
     .catch(console.error);
 });
 
