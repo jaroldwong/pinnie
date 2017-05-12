@@ -120,7 +120,7 @@ slackEvents.on('pin_added', (event, body) => {
     Pin.findOne(function(err, savedPins) {
       if (err) return console.error(err);
   
-      savedPins.pins.push(event.item.message.text);
+      savedPins.pins.push(event);
   
       savedPins.save(function(err) {
         if (err) {
