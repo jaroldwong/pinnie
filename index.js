@@ -8,17 +8,17 @@ const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy;
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-
-// db setup
-var uri = process.env.MLAB;
-mongoose.connect(uri);
-
-// define schema and create model
-var pinSchema = new mongoose.Schema({
-  pin: []
-});
-var Pin = mongoose.model('pin', pinSchema);
+// const mongoose = require('mongoose');
+//
+// // db setup
+// var uri = process.env.MLAB;
+// mongoose.connect(uri);
+//
+// // define schema and create model
+// var pinSchema = new mongoose.Schema({
+//   pin: []
+// });
+// var Pin = mongoose.model('pin', pinSchema);
 
 // *** Initialize event adapter using verification token from environment variables ***
 const slackEvents = slackEventsApi.createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN, {
@@ -116,20 +116,20 @@ slackEvents.on('pin_added', (event, body) => {
   if (!slack) {
     return console.error('No authorization found for this team. Did you install this app again after restarting?');
   }
-  // Save message to DB
-    Pin.findOne(function(err, pins) {
-      if (err) return console.error(err);
-
-      pins.pins.push(event.item.message.text);
-
-      pins.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Successful save');
-        }
-      });
-    });
+  // // Save message to DB
+  //   Pin.findOne(function(err, pins) {
+  //     if (err) return console.error(err);
+  //
+  //     pins.pins.push(event.item.message.text);
+  //
+  //     pins.save(function(err) {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         console.log('Successful save');
+  //       }
+  //     });
+  //   });
   // Notify message saved
   slack.chat.postMessage(event.item.channel, `Saving pin message: ${event.item.message.text}`)
     .catch(console.error);
