@@ -96,7 +96,7 @@ slackEvents.on('pin_added', (event, body) => {
   }
 
   // Add a new pinned event to the db
-    Pin.create(event);
+    Pin.create({ pinned_event: event });
 
   // Save message to DB
     // Pin.findOne(function(err, savedPins) {
