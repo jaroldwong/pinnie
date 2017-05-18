@@ -16,7 +16,7 @@ mongoose.connect(uri);
 
 // define schema and create model
 var pinSchema = new mongoose.Schema({
-  pinned_event: {type: Object}
+  pinned_event: { type: Object }
 });
 var Pin = mongoose.model('pin', pinSchema);
 
@@ -96,22 +96,8 @@ slackEvents.on('pin_added', (event, body) => {
   }
 
   // Add a new pinned event to the db
-    Pin.create({ pinned_event: event });
+  Pin.create({ pinned_event: event });
 
-  // Save message to DB
-    // Pin.findOne(function(err, savedPins) {
-    //   if (err) return console.error(err);
-  
-    //   savedPins.pins.push(event);
-  
-    //   savedPins.save(function(err) {
-    //     if (err) {
-    //       console.log(err);
-    //     } else {
-    //       console.log('Successful save');
-    //     }
-    //   });
-    // });
   // Notify message saved
   slack.chat.postMessage(event.item.channel, `Saving pinned item: ${event}`)
     .catch(console.error);
