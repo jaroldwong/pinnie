@@ -16,7 +16,7 @@ mongoose.connect(uri);
 
 // define schema and create model
 var pinSchema = new mongoose.Schema({
-  pins: []
+  pinned_event: {type: Object}
 });
 var Pin = mongoose.model('pin', pinSchema);
 
