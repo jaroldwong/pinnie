@@ -20,6 +20,9 @@ var pinSchema = new mongoose.Schema({
 });
 var Pin = mongoose.model('pin', pinSchema);
 
+// serve static files
+app.use(express.static('public'));
+
 // *** Initialize event adapter using verification token from environment variables ***
 const slackEvents = slackEventsApi.createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN, {
   includeBody: true
@@ -60,7 +63,7 @@ app.use(bodyParser.json());
 // Plug the Add to Slack (OAuth) helpers into the express app
 app.use(passport.initialize());
 app.get('/', (req, res) => {
-  res.send('<a href="/auth/slack"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>');
+  res.render('index');
 });
 app.get('/auth/slack', passport.authenticate('slack', {
   scope: ['bot']
