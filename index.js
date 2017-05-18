@@ -77,8 +77,8 @@ app.get('/auth/slack/callback',
 
 // Index of saved pins
 app.get('/pins', (req, res) => {
-  Pin.findOne((err, pins) => {
-    res.send(pins);
+  Pin.find({}, (err, pins) => {
+    res.json(pins);
   })
 });
 
