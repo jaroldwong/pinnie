@@ -94,20 +94,24 @@ slackEvents.on('pin_added', (event, body) => {
   if (!slack) {
     return console.error('No authorization found for this team. Did you install this app again after restarting?');
   }
+
+  // Add a new pinned event to the db
+    Pin.create(event);
+
   // Save message to DB
-    Pin.findOne(function(err, savedPins) {
-      if (err) return console.error(err);
+    // Pin.findOne(function(err, savedPins) {
+    //   if (err) return console.error(err);
   
-      savedPins.pins.push(event);
+    //   savedPins.pins.push(event);
   
-      savedPins.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log('Successful save');
-        }
-      });
-    });
+    //   savedPins.save(function(err) {
+    //     if (err) {
+    //       console.log(err);
+    //     } else {
+    //       console.log('Successful save');
+    //     }
+    //   });
+    // });
   // Notify message saved
   slack.chat.postMessage(event.item.channel, `Saving pinned item: ${event.item.message.text}`)
     .catch(console.error);
