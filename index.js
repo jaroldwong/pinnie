@@ -113,7 +113,7 @@ slackEvents.on('pin_added', (event, body) => {
     //   });
     // });
   // Notify message saved
-  slack.chat.postMessage(event.item.channel, `Saving pinned item: ${event.item.message.text}`)
+  slack.chat.postMessage(event.item.channel, `Saving pinned item: ${event}`)
     .catch(console.error);
 });
 
