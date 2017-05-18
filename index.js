@@ -20,9 +20,6 @@ var pinSchema = new mongoose.Schema({
 });
 var Pin = mongoose.model('pin', pinSchema);
 
-// serve static files
-app.use(express.static('public'));
-
 // *** Initialize event adapter using verification token from environment variables ***
 const slackEvents = slackEventsApi.createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN, {
   includeBody: true
@@ -58,6 +55,10 @@ passport.use(new SlackStrategy({
 
 // Initialize an Express application
 const app = express();
+
+// serve static files
+app.use(express.static('public'));
+
 app.use(bodyParser.json());
 
 // Plug the Add to Slack (OAuth) helpers into the express app
